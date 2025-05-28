@@ -8,6 +8,10 @@ const BtEsquerda = document.getElementById("BtEsquerda");
 const BtDireita = document.getElementById("BtDireita");
 const mover = document.getElementById("Cmaior");
 
+
+
+
+
 BtEsquerda.addEventListener("mousedown", function(){
     clearInterval(intervalId);
     iresquerda();
@@ -30,6 +34,24 @@ mover.addEventListener("mousemove", function(e){
 
     //mover.style.left = e.clientx + "px";
 });
+BtEsquerda.addEventListener("touchstart", function(e){
+    clearInterval(intervalId);
+    e.preventDefault();
+    iresquerda();
+    intervalId = setInterval(iresquerda, 100);
+});
+BtEsquerda.addEventListener('touchend', parar);
+BtDireita.addEventListener("touchstart", function(e){
+    clearInterval(intervalId);
+    e.preventDefault();
+    irdireita();
+    intervalId = setInterval(irdireita, 100);
+});
+BtDireita.addEventListener('touchend', parar);
+
+
+
+
 
 function iresquerda() {
     posicao -= 10;  
