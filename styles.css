@@ -12,7 +12,7 @@
 #Tela {
     background-color:  #b6b3b6;
     width: vw;
-    height: 500px;
+    height: 700px;
     display: flex;
     justify-content: center;
     align-items: center; 
@@ -31,7 +31,18 @@
 #Cmaior {
     Position:absolute;
     background-color: #000000;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+#Cmenor {
+    Position:absolute;
+    background-color: #858585;
     width: 40px;
-    height: 70px;
+    height: 40px;
+    border-radius: 50%;
 
 }
