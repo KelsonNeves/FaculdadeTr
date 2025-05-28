@@ -1,0 +1,37 @@
+#CxBotao {
+    background-color:  #ff11ff;
+    width: vw;
+    height:100px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    gap: 20px;
+
+}
+
+#Tela {
+    background-color:  #b6b3b6;
+    width: vw;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin-top:10px;
+    border-radius: 10px;
+}
+
+#Personagem {
+    Position:absolute;
+    background-color: #000000;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    transition: transform 0.2s;
+}
+#Cmaior {
+    Position:absolute;
+    background-color: #000000;
+    width: 40px;
+    height: 70px;
+
+}
