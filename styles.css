@@ -1,32 +1,49 @@
-#CxBotao {
-    background-color:  #ff11ff;
+#body{
+    background-color:  #000000;
     width: vw;
-    height:100px;
-    display: flex;
+    height: 100vh;
+    display: block;
+    overflow: hidden;
+}
+#mapa{
+    position: absolute;
+    background:url('IMG/MAP2.webp') no-repeat;
+    background-size: cover;
+}
+
+
+#CxBotao {
+    background-color:  #1121ff;
+    width: 100%;
     justify-content: center;
     align-items: center; 
-    gap: 20px;
+    height: 180px;
 
+    border-top-left-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 #Tela {
     background-color:  #b6b3b6;
-    width: vw;
-    height: 500px;
+    width: 100%;
+    height: 100%;
+    position: relative;
     display: flex;
-    justify-content: center;
-    align-items: center; 
     margin-top:10px;
+    margin-bottom:20px;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 #Personagem {
     Position:absolute;
-    background-color: #000000;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    transition: transform 0.2s;
+    width: 100px;
+    height: 100px;
+    top:400px;
+    background-size: cover;
+    background-position: center;
+  
+
 }
 #Cmaior {
     Position:absolute;
@@ -44,5 +61,19 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
+
+}
+
+#regua1{
+    background-color: #858585;
+    width: 75px;
+    height: 75px;
+    Position:absolute;
+    left:100px;
+    top:300px;
+}#regua2{
+    background-color: #ffffff;
+    width: 50px;
+    height: 50px;
 
 }
