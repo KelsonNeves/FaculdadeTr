@@ -8,6 +8,18 @@ const moverArea = document.getElementById("Cmaior");
 const tela = document.getElementById("Tela");
 const Body = document.getElementById("body");
 const mapa = document.getElementById("mapa");
+const playMsc = document.getElementById("musica");
+const BtMsc = document.getElementById("tocar");
+const abertura = document.getElementById("abertura");
+
+
+BtMsc.addEventListener("click", function(){
+    playMsc.currentTime = 0;
+    playMsc.play();
+    abertura.style.display = "none";
+    BtMsc.style.display = "none";
+});
+
 
 let posicaox = -100;
 let posicaoy = -500;
