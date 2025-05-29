@@ -3,28 +3,31 @@
 const Personagem = document.getElementById("Personagem");
 const BtEsquerda = document.getElementById("BtEsquerda");
 const BtDireita = document.getElementById("BtDireita");
+const caixaBt = document.getElementById("CxBotao");
 const mover = document.getElementById("Cmenor");
 const moverArea = document.getElementById("Cmaior");
 const tela = document.getElementById("Tela");
 const Body = document.getElementById("body");
 const mapa = document.getElementById("mapa");
 const playMsc = document.getElementById("musica");
-const BtMsc = document.getElementById("tocar");
+const BtJg = document.getElementById("jogar");
 const abertura = document.getElementById("abertura");
+const CxClique = document.getElementById("CxClique");
 
 
-BtMsc.addEventListener("click", function(){
+BtJg.addEventListener("click", function(){
     playMsc.currentTime = 0;
     playMsc.play();
     abertura.style.display = "none";
-    BtMsc.style.display = "none";
+    BtJg.style.display = "none";
 });
 
 
-let posicaox = -100;
-let posicaoy = -500;
+let posicaox = -600;
+let posicaoy = -600;
 let Areax = Body.offsetWidth;
 let Areay = Body.offsetHeight;
+
 resolucao();
 
 
@@ -41,10 +44,18 @@ let movY = null;
 let VaoMov = 10;
 let velocidade = 0.6;
 
+
 const MalhaColisao = [
-    {x: 0, y: 0, width: 200, height: 200},
-    {x: -270, y: -420, width: 170, height: 130},
-    {x: -380, y: -730, width: 30, height: 280,}
+    {x: -780, y: -1165, width: -50, height: 380},
+    {x: -690, y: -947, width: 70, height: 70},
+    {x: -775, y: -1155, width: 10, height: 180},
+    {x: -500, y: -950, width: -50, height: 300},
+    {x: -500, y: -1138, width: -50, height: 140},
+    {x: -500, y: -1336, width: -50, height: 170},
+    {x: -780, y: -1325, width: -50, height: 120},
+    {x: -780, y: -742, width: -50, height: 80},
+    {x: -840, y: -675, width: 50, height: 30},
+    {x: -694, y: -846, width: 80, height: 150},
 ];
 
 
@@ -70,8 +81,11 @@ return 1;
 
 }
 
-moverArea.style.left = (TamanhoTelax/2)-(TamanhomoverAreax/2)+ +(Tamanhomoverx/2) +"px";
+
+BtJg.style.left = (TamanhoTelax/2)-(BtJg.offsetWidth/2)+ 5 +"px";
+moverArea.style.left = (TamanhoTelax/2)-(TamanhomoverAreax/2)+ 5 +"px";
 moverArea.style.top = TamanhoTelay + "px";
+caixaBt.style.height = Areay - TamanhoTelay+ "px";
 mover.addEventListener("touchmove", function(e){
     
         e.preventDefault();
@@ -156,12 +170,15 @@ function resolucao(){
 
     tela.style.width =  Areax + "px";
     tela.style.height = (Areay - 200) + "px";
-    mapa.style.width = "2000px";
-    mapa.style.height = "2000px";
-    mapa.style.left = posicaox + "px";
-    mapa.style.top = posicaoy + "px";
+    mapa.style.height = 2000+(tela.offsetHeight) + "px";
+    mapa.style.width = 2000+(tela.offsetWidth) + "px";
+    mapa.style.left = posicaox +"px";
+    mapa.style.top = posicaoy +"px";
     Personagem.style.left = (Areax/2) - (Personagem.offsetHeight/2) +  "px";
     Personagem.style.backgroundImage = "url('IMG/PER1parado.webp')";
+    Personagem.style.top = (tela.offsetHeight/2-100) +  "px";
+    document.getElementById("CxClique").style.left = Areax/2-document.getElementById("CxClique").offsetWidth/2 + 5+  "px";
+
 };
 
 
@@ -216,3 +233,29 @@ function pararY(){
 
 }
 
+let clique1 = -1;
+function Clique1(){
+
+    if(clique1 == -1){
+        tela.style.height = tela.offsetHeight - 200 + "px";
+        clique1 = 1;
+        caixaBt.style.height = Areay - tela.offsetHeight + "px";
+        moverArea.style.display = "none";
+        
+        document.getElementById("Tela2").style.display = "flex";
+        document.getElementById("Tela2").style.top = "-40px";
+        
+    } else {
+        moverArea.style.display = "flex";
+        tela.style.height = (Areay - 200) + "px";
+        clique1 = -1
+        caixaBt.style.height = Areay - tela.offsetHeight + "px";
+        
+        document.getElementById("Tela2").style.display = "none";
+        document.getElementById("Tela2").style.top = "10px";
+    } 
+};
+
+function Clique2(){
+    alert("2");
+};
