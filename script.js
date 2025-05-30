@@ -15,8 +15,8 @@ const abertura = document.getElementById("abertura");
 const CxClique = document.getElementById("CxClique");
 const BlTexto1 = document.getElementById("Tx001").textContent.split('","');
 
-const LinkPersonagem1P = "url('IMG/PER4parado.png')";
-const LinkPersonagem1A = "url('IMG/PER4.gif')";
+const LinkPersonagem1P = "url('IMG/PER1parado.png')";
+const LinkPersonagem1A = "url('IMG/PER1.gif')";
 
 //OBJETOS --------------
 const MalhaColisao = [
@@ -70,7 +70,7 @@ let Tamanhomovery = mover.offsetHeight;
 let Sentido = 1;
 let movX = null;
 let movY = null;
-let VaoMov = 10;
+let VaoMov = 15;
 let velocidade = 1;
 
 
@@ -102,13 +102,13 @@ mover.addEventListener("touchmove", function(e){
         e.preventDefault();
         const touch = e.touches[0];
 
-        if(touch.clientX <= ((TamanhoTelax/2)+(TamanhomoverAreax/2)+(Tamanhomoverx/2)) &&
-        touch.clientX >= ((TamanhoTelax/2)-(TamanhomoverAreax/2)+(Tamanhomoverx/2))){
+        if(touch.clientX <= ((TamanhoTelax/2)+(TamanhomoverAreax/2)) &&
+        touch.clientX >= ((TamanhoTelax/2)-(TamanhomoverAreax/2))){
 
             mover.style.left = (touch.clientX - (TamanhoTelax/2) + (TamanhomoverAreax/2))- (Tamanhomoverx/2) + "px";
         }
-        if(touch.clientY <= ((TamanhoTelay+TamanhomoverAreay)) &&
-        touch.clientY >= ((TamanhoTelay))){
+        if(touch.clientY <= ((TamanhoTelay+TamanhomoverAreay/2+Tamanhomovery/2)) &&
+        touch.clientY >= ((TamanhoTelay-Tamanhomovery/2))){
             mover.style.top = touch.clientY - TamanhoTelay + 20 - (Tamanhomovery/2)+ "px";
         }
 
@@ -140,6 +140,7 @@ mover.addEventListener("touchmove", function(e){
         parseInt(mover.style.left) > ((TamanhomoverAreax/2)-(Tamanhomoverx/2)-VaoMov)){
 
             pararX();
+
             
         }
 
@@ -163,16 +164,27 @@ mover.addEventListener("touchmove", function(e){
             movY = setInterval(irBaixo, 4);
 
 
-        }if(parseInt(mover.style.top)<= ((TamanhomoverAreay/2)-(Tamanhomovery/2)-VaoMov) &&
-        parseInt(mover.style.top) >= ((TamanhomoverAreay/2)-(Tamanhomovery/2)+VaoMov)){
+        }if(parseInt(mover.style.top)< ((TamanhomoverAreay/2)-(Tamanhomovery/2)+VaoMov) &&
+        parseInt(mover.style.top) > ((TamanhomoverAreay/2)-(Tamanhomovery/2)-VaoMov)
+        ){ 
 
             pararY();
-            
+
+        }
+        if(parseInt(mover.style.top)< ((TamanhomoverAreay/2)-(Tamanhomovery/2)+VaoMov) &&
+        parseInt(mover.style.top) > ((TamanhomoverAreay/2)-(Tamanhomovery/2)-VaoMov) &&
+        parseInt(mover.style.left)< ((TamanhomoverAreax/2)-(Tamanhomoverx/2)+VaoMov) &&
+        parseInt(mover.style.left) > ((TamanhomoverAreax/2)-(Tamanhomoverx/2)-VaoMov)
+        ){ 
+
+            Personagem.style.backgroundImage = LinkPersonagem1P;
+
         }
 });
 mover.addEventListener("touchend", function(){
     mover.style.left = ((TamanhomoverAreax/2)-(Tamanhomoverx/2))+"px" ;
     mover.style.top = ((TamanhomoverAreay/2)-(Tamanhomovery/2))+"px" ;
+    Personagem.style.backgroundImage = LinkPersonagem1P;
     pararX();
     pararY();
 });
@@ -246,13 +258,13 @@ function irBaixo() {
 }
 
 function pararX(){
-    Personagem.style.backgroundImage = LinkPersonagem1P;
+    
     clearInterval(movX);
     movX = null;
 
 }
 function pararY(){
-    Personagem.style.backgroundImage = LinkPersonagem1P;
+
     clearInterval(movY);
     movY = null;
 
