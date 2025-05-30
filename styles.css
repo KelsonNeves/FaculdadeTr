@@ -45,7 +45,7 @@
 #mapa{
     position: absolute;
 
-    background: url('IMG/MAP2.webp') no-repeat center center;
+    background: url('IMG/MAP4.jpg') no-repeat center center;
 }
 #Tela2 {
     background-color:  #0584be;
@@ -61,14 +61,12 @@
     color: #eaebeb;
 }
 
-#Personagem {
+.personagens{
     Position:absolute;
     width: 100px;
     height: 100px;
     background-size: cover;
     background-position: center;
-  
-
 }
 #Cmaior {
     Position:absolute;
@@ -123,4 +121,7 @@
     Position:absolute;
     bottom: 20px;
 
+}
+#arquivos{
+    display:none;
 }
