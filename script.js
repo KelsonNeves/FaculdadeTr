@@ -469,7 +469,7 @@ function CriObjetos(){
     Objeto2.style.backgroundImage = LinkObjeto2;
 
     Objeto3.style.left = -1520 +  "px";
-    Objeto3.style.top = -420 +  "px";
+    Objeto3.style.top = -400 +  "px";
     Objeto3.style.backgroundImage = LinkObjeto3;
 
     Objeto4.style.left = -390 +  "px";
