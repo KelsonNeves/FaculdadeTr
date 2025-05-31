@@ -113,7 +113,7 @@ let movX = null;
 let movY = null;
 let movPer = setInterval(MovPersonagem, 4000);
 let VaoMov = 15;
-let velocidade = 2;
+let velocidade = 1;
 
 let posicaoPer2x = Personagem2.offsetLeft;
 let posicaoPer2y = Personagem2.offsetTop;
