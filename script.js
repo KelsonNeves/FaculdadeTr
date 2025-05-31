@@ -38,6 +38,24 @@ const Personagem5 = document.getElementById("Personagem5");
 const Personagem6 = document.getElementById("Personagem6");
 const Personagem7 = document.getElementById("Personagem7");
 
+const LinkObjeto1 = "url('IMG/OBJ/01.png')";
+const LinkObjeto2 = "url('IMG/OBJ/02.png')";
+const LinkObjeto3 = "url('IMG/OBJ/03.png')";
+const LinkObjeto4 = "url('IMG/OBJ/04.png')";
+const LinkObjeto5 = "url('IMG/OBJ/05.png')";
+const LinkObjeto6 = "url('IMG/OBJ/06.png')";
+
+const Objeto1 = document.getElementById("Obj1");
+const Objeto2 = document.getElementById("Obj2");
+const Objeto3 = document.getElementById("Obj3");
+const Objeto4 = document.getElementById("Obj4");
+const Objeto5 = document.getElementById("Obj5");
+const Objeto6 = document.getElementById("Obj6");
+
+
+
+
+
 //OBJETOS --------------
 
 const MalhaColisao = [
@@ -67,7 +85,6 @@ const MalhaColisao = [
     {x: -1440, y: -570, width: 220, height: 300},
 
 
-
 ];
 
 
@@ -80,7 +97,8 @@ let posicaoy = -900;
 
 
 resolucao();
-CriPersonagens()
+CriPersonagens();
+CriObjetos();
 
 let Areax = Body.offsetWidth;
 let Areay = Body.offsetHeight;
@@ -95,7 +113,7 @@ let movX = null;
 let movY = null;
 let movPer = setInterval(MovPersonagem, 4000);
 let VaoMov = 15;
-let velocidade = 1;
+let velocidade = 2;
 
 let posicaoPer2x = Personagem2.offsetLeft;
 let posicaoPer2y = Personagem2.offsetTop;
@@ -109,6 +127,20 @@ let posicaoPer6x = Personagem6.offsetLeft;
 let posicaoPer6y = Personagem6.offsetTop;
 let posicaoPer7x = Personagem7.offsetLeft;
 let posicaoPer7y = Personagem7.offsetTop;
+
+let posicaoObj1x = Objeto1.offsetLeft;
+let posicaoObj1y = Objeto1.offsetTop;
+let posicaoObj2x = Objeto2.offsetLeft;
+let posicaoObj2y = Objeto2.offsetTop;
+let posicaoObj3x = Objeto3.offsetLeft;
+let posicaoObj3y = Objeto3.offsetTop;
+let posicaoObj4x = Objeto4.offsetLeft;
+let posicaoObj4y = Objeto4.offsetTop;
+let posicaoObj5x = Objeto5.offsetLeft;
+let posicaoObj5y = Objeto5.offsetTop;
+let posicaoObj6x = Objeto6.offsetLeft;
+let posicaoObj6y = Objeto6.offsetTop;
+
 
 
 
@@ -263,6 +295,14 @@ function iresquerda() {
     posicaoPer5x += velocidade;
     posicaoPer6x += velocidade;
     posicaoPer7x += velocidade;
+
+    posicaoObj1x += velocidade;
+    posicaoObj2x += velocidade;
+    posicaoObj3x += velocidade;
+    posicaoObj4x += velocidade;
+    posicaoObj5x += velocidade;
+    posicaoObj6x += velocidade;
+
     Redesenhar()
     
     } else{
@@ -278,6 +318,13 @@ function irdireita() {
     posicaoPer5x -= velocidade;
     posicaoPer6x -= velocidade;
     posicaoPer7x -= velocidade;
+
+    posicaoObj1x -= velocidade;
+    posicaoObj2x -= velocidade;
+    posicaoObj3x -= velocidade;
+    posicaoObj4x -= velocidade;
+    posicaoObj5x -= velocidade;
+    posicaoObj6x -= velocidade;
     Redesenhar()
     } else{
         posicaox += velocidade;
@@ -293,6 +340,13 @@ function irCima() {
     posicaoPer5y += velocidade;
     posicaoPer6y += velocidade;
     posicaoPer7y += velocidade;
+
+    posicaoObj1y += velocidade;
+    posicaoObj2y += velocidade;
+    posicaoObj3y += velocidade;
+    posicaoObj4y += velocidade;
+    posicaoObj5y += velocidade;
+    posicaoObj6y += velocidade;
     Redesenhar()
     } else{
         posicaoy -= velocidade;
@@ -309,6 +363,14 @@ function irBaixo() {
     posicaoPer5y -= velocidade;
     posicaoPer6y -= velocidade;
     posicaoPer7y -= velocidade;
+
+    posicaoObj1y -= velocidade;
+    posicaoObj2y -= velocidade;
+    posicaoObj3y -= velocidade;
+    posicaoObj4y -= velocidade;
+    posicaoObj5y -= velocidade;
+    posicaoObj6y -= velocidade;
+    
     Redesenhar()
     } else{
         posicaoy += velocidade;
@@ -397,6 +459,31 @@ function CriPersonagens(){
 
     
 }
+function CriObjetos(){
+    Objeto1.style.left = -350 +  "px";
+    Objeto1.style.top = -130 +  "px";
+    Objeto1.style.backgroundImage = LinkObjeto1;
+
+    Objeto2.style.left = -1400 +  "px";
+    Objeto2.style.top = 850 +  "px";
+    Objeto2.style.backgroundImage = LinkObjeto2;
+
+    Objeto3.style.left = -1520 +  "px";
+    Objeto3.style.top = -420 +  "px";
+    Objeto3.style.backgroundImage = LinkObjeto3;
+
+    Objeto4.style.left = -390 +  "px";
+    Objeto4.style.top = 950 +  "px";
+    Objeto4.style.backgroundImage = LinkObjeto4;
+
+    Objeto5.style.left = -350 +  "px";
+    Objeto5.style.top = 600 +  "px";
+    Objeto5.style.backgroundImage = LinkObjeto5;
+
+    Objeto6.style.left = 250 +  "px";
+    Objeto6.style.top = 900 +  "px";
+    Objeto6.style.backgroundImage = LinkObjeto6;
+}
 
 function Redesenhar(){
     mapa.style.left = posicaox + 'px';
@@ -413,6 +500,18 @@ function Redesenhar(){
     Personagem6.style.top = posicaoPer6y + 'px';
     Personagem7.style.left = posicaoPer7x + 'px';
     Personagem7.style.top = posicaoPer7y + 'px';
+    Objeto1.style.left = posicaoObj1x + "px"
+    Objeto1.style.top = posicaoObj1y + "px"
+    Objeto2.style.left = posicaoObj2x + "px"
+    Objeto2.style.top = posicaoObj2y + "px"
+    Objeto3.style.left = posicaoObj3x + "px"
+    Objeto3.style.top = posicaoObj3y + "px"
+    Objeto4.style.left = posicaoObj4x + "px"
+    Objeto4.style.top = posicaoObj4y + "px"
+    Objeto5.style.left = posicaoObj5x + "px"
+    Objeto5.style.top = posicaoObj5y + "px"
+    Objeto6.style.left = posicaoObj6x + "px"
+    Objeto6.style.top = posicaoObj6y + "px"
 }
 
 let vel = 1;
