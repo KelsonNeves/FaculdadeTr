@@ -7,6 +7,7 @@ const caixaBt = document.getElementById("CxBotao");
 const mover = document.getElementById("Cmenor");
 const moverArea = document.getElementById("Cmaior");
 const tela = document.getElementById("Tela");
+const tela3 = document.getElementById("Tela3");
 const Body = document.getElementById("body");
 const mapa = document.getElementById("mapa");
 const playMsc = document.getElementById("musica");
@@ -14,6 +15,7 @@ const BtJg = document.getElementById("jogar");
 const abertura = document.getElementById("abertura");
 const CxClique = document.getElementById("CxClique");
 const BlTexto1 = document.getElementById("Tx001").textContent.split('","');
+const TelaObj = document.getElementById("TelaObg");
 
 const LinkPersonagem1P = "url('IMG/PER1parado.png')";
 const LinkPersonagem1A = "url('IMG/PER1.gif')";
@@ -52,13 +54,16 @@ const Objeto4 = document.getElementById("Obj4");
 const Objeto5 = document.getElementById("Obj5");
 const Objeto6 = document.getElementById("Obj6");
 
-
-
+//EFEITOS SONOROS
+const EfFundo = new Audio("MSC/FUNDO.m4a");
+EfFundo.loop = true;
+const EfWalking = new Audio("MSC/EfWalking.m4a");
+EfWalking.playbackRate = 1.4;
 
 
 //OBJETOS --------------
 
-const MalhaColisao = [
+const MalhaColisao = [/*
     {x: -2220, y: -1830, width: 0, height: 2000},
     {x: -2240, y: -330, width: 2300, height: 30},
     {x: -180, y: -1830, width: 0, height: 2000},
@@ -84,19 +89,26 @@ const MalhaColisao = [
     {x: -325, y: -430, width: -10, height: 300},
     {x: -1440, y: -570, width: 220, height: 300},
 
-
+*/
 ];
 
 
+//SCORE -----------------
+let Inventario = [0,0,0,0,0,0];
+let Score = 100;
 
-
+let ItensMapa = [1,1,1,1,1,1];
 
 
 let posicaox = -2000;
 let posicaoy = -900;
+let Ix = 1.3;
+let Iy = 6.5;
 
 
 resolucao();
+let Varx = ((mapa.getBoundingClientRect().width/2)-(Personagem2.getBoundingClientRect().width/2));
+let Vary = ((mapa.getBoundingClientRect().height/2)-(Personagem2.getBoundingClientRect().height/2));
 CriPersonagens();
 CriObjetos();
 
@@ -113,7 +125,9 @@ let movX = null;
 let movY = null;
 let movPer = setInterval(MovPersonagem, 4000);
 let VaoMov = 15;
-let velocidade = 1;
+let velocidade = 3;
+
+
 
 let posicaoPer2x = Personagem2.offsetLeft;
 let posicaoPer2y = Personagem2.offsetTop;
@@ -148,15 +162,18 @@ function resolucao(){
 
     tela.style.width =  Body.offsetWidth + "px";
     tela.style.height = (Body.offsetHeight - 300) + "px";
+    tela3.style.width =  Body.offsetWidth + "px";
+    tela3.style.height = (Body.offsetHeight - 300) + "px";
     mapa.style.height = 2000+(tela.offsetHeight) + "px";
     mapa.style.width = 2500+(tela.offsetWidth) + "px";
     mapa.style.left = posicaox +"px";
     mapa.style.top = posicaoy +"px";
-    document.getElementById("CxClique").style.left = Body.offsetWidth/2-document.getElementById("CxClique").offsetWidth/2 + 5+  "px";
+    document.getElementById("CxClique").style.left = Body.offsetWidth/2-document.getElementById("CxClique").offsetWidth/2 +  "px";
     BtJg.style.left = (tela.offsetWidth/2)-(BtJg.offsetWidth/2)+ 5 +"px";
     moverArea.style.left = (tela.offsetWidth/2)-(moverArea.offsetWidth/2)+ 5 +"px";
     moverArea.style.top = tela.offsetHeight + "px";
     caixaBt.style.height = Body.offsetHeight - tela.offsetHeight + "px";
+    document.getElementById('BtDir').disabled = true;
 };
 
 
@@ -175,7 +192,7 @@ mover.addEventListener("touchmove", function(e){
         }
         if(touch.clientY <= ((TamanhoTelay+TamanhomoverAreay/2+Tamanhomovery/2)) &&
         touch.clientY >= ((TamanhoTelay-Tamanhomovery/2))){
-            mover.style.top = touch.clientY - TamanhoTelay + 20 - (Tamanhomovery/2)+ "px";
+            mover.style.top = touch.clientY - TamanhoTelay  - (Tamanhomovery/2)+ "px";
         }
 
 
@@ -244,7 +261,8 @@ mover.addEventListener("touchmove", function(e){
         ){ 
 
             Personagem1.style.backgroundImage = LinkPersonagem1P;
-
+            EfWalking.pause();
+            EfWalking.currentTime = 0;
         }
 });
 mover.addEventListener("touchend", function(){
@@ -253,10 +271,12 @@ mover.addEventListener("touchend", function(){
     Personagem1.style.backgroundImage = LinkPersonagem1P;
     pararX();
     pararY();
+    EfWalking.pause();
+    EfWalking.currentTime = 0;
 });
 let clique1 = -1;
 function Clique1(){
-
+alert(mapa.getBoundingClientRect().top+"/"+mapa.getBoundingClientRect().left);
     if(clique1 == -1){
         tela.style.height = tela.offsetHeight - 300 + "px";
         clique1 = 1;
@@ -276,10 +296,58 @@ function Clique1(){
         document.getElementById("Tela2").style.top = "10px";
     } 
 };
-let clique2 = -1;
+let clique2 = 0;
 function Clique2(){
+    
+    for(let x=0;x<5;x++){
+            Score += Inventario[x]*10;
+    
+    };
+    if(clique2 == 6){  
+
+        Inventario[clique2-1]=-1;
+        Objeto6.style.display ="none";
+        ItensMapa[clique2-1]=-1
+        
+    } else if(clique2 == 5){  
+
+        Inventario[clique2-1]=-1;
+        Objeto5.style.display ="none";
+        ItensMapa[clique2-1]=-1
+        
+    }else if(clique2 == 4){  
+
+        Inventario[clique2-1]=1;
+        Objeto4.style.display ="none";
+        ItensMapa[clique2-1]=-1
+        
+    }else if(clique2 == 3){  
+
+        Inventario[clique2-1]=-1;
+        Objeto3.style.display ="none";
+        ItensMapa[clique2-1]=-1
+        
+    }else if(clique2 == 2){  
+
+        Inventario[clique2-1]=1;
+        Objeto2.style.display ="none";
+        ItensMapa[clique2-1]=-1
+        
+    }else if(clique2 == 1){  
+
+        Inventario[clique2-1]=1;
+        Objeto1.style.display ="none";
+        ItensMapa[clique2-1]=-1
+        
+    } else {
    
-    alert("2");
+        
+
+    }
+    TelaObj.style.display = "none";
+    
+    document.getElementById("Inventario").style.display ="flex";
+
 };
 
 
@@ -287,6 +355,9 @@ function Clique2(){
 //FUNÇÕES DO PERSONAGEM --------------
 function iresquerda() {
     posicaox += velocidade;
+
+   
+    EfWalking.play();
     if(colisao()==1){
 
     posicaoPer2x += velocidade;
@@ -303,6 +374,8 @@ function iresquerda() {
     posicaoObj5x += velocidade;
     posicaoObj6x += velocidade;
 
+ 
+
     Redesenhar()
     
     } else{
@@ -311,6 +384,7 @@ function iresquerda() {
 }
 function irdireita() {
     posicaox -= velocidade;
+    EfWalking.play();
     if(colisao()==1){
     posicaoPer2x -= velocidade;
     posicaoPer3x -= velocidade;
@@ -325,6 +399,9 @@ function irdireita() {
     posicaoObj4x -= velocidade;
     posicaoObj5x -= velocidade;
     posicaoObj6x -= velocidade;
+
+
+
     Redesenhar()
     } else{
         posicaox += velocidade;
@@ -332,7 +409,8 @@ function irdireita() {
 
 }
 function irCima() {
-    posicaoy += velocidade; 
+    posicaoy += velocidade;
+    EfWalking.play();
     if(colisao()==1){
     posicaoPer2y += velocidade;
     posicaoPer3y += velocidade;
@@ -347,6 +425,9 @@ function irCima() {
     posicaoObj4y += velocidade;
     posicaoObj5y += velocidade;
     posicaoObj6y += velocidade;
+
+
+
     Redesenhar()
     } else{
         posicaoy -= velocidade;
@@ -355,7 +436,7 @@ function irCima() {
 }
 function irBaixo() {
     posicaoy -= velocidade;
-      
+    EfWalking.play();
     if(colisao()==1){
     posicaoPer2y -= velocidade;
     posicaoPer3y -= velocidade;
@@ -371,6 +452,7 @@ function irBaixo() {
     posicaoObj5y -= velocidade;
     posicaoObj6y -= velocidade;
     
+
     Redesenhar()
     } else{
         posicaoy += velocidade;
@@ -394,8 +476,8 @@ function pararY(){
 
 //DEMAIS FUNÇÕES ---------------------------
 BtJg.addEventListener("click", function(){
-    playMsc.currentTime = 0;
-    playMsc.play();
+    EfFundo.currentTime = 0;
+    EfFundo.play();
     abertura.style.display = "none";
     BtJg.style.display = "none";
 });
@@ -427,61 +509,61 @@ function CriPersonagens(){
     Personagem1.style.top = (tela.offsetHeight/2-100) +  "px";
     Personagem1.style.backgroundImage = LinkPersonagem1P;
 
-    Personagem2.style.left = -1000 +  "px";
-    Personagem2.style.top = 570 +  "px";
+
+    Personagem2.style.left = Varx-2390 +  "px";
+    Personagem2.style.top = Vary -600 +  "px";
     Personagem2.style.backgroundImage = LinkPersonagem2P;
 
-
-    Personagem3.style.left = -700 +  "px";
-    Personagem3.style.top = -200 +  "px";
+    Personagem3.style.left = Varx -2100 +  "px";
+    Personagem3.style.top = Vary-1450 +  "px";
     Personagem3.style.backgroundImage = LinkPersonagem3P;
 
 
-    Personagem4.style.left = -350 +  "px";
-    Personagem4.style.top = 900 +  "px";
+    Personagem4.style.left = Varx -1600+  "px";
+    Personagem4.style.top = Vary -250+  "px";
     Personagem4.style.backgroundImage = LinkPersonagem4P;
 
 
-    Personagem5.style.left = -1510 +  "px";
-    Personagem5.style.top = -230 +  "px";
+    Personagem5.style.left = Varx -2900 +  "px";
+    Personagem5.style.top = Vary -1500 +  "px";
     Personagem5.style.backgroundImage = LinkPersonagem5P;
 
 
-    Personagem6.style.left = 0 +  "px";
-    Personagem6.style.top = -300 +  "px";
+    Personagem6.style.left = Varx -1200 +  "px";
+    Personagem6.style.top = Vary -1500 +  "px";
     Personagem6.style.backgroundImage = LinkPersonagem6P;
 
 
-    Personagem7.style.left = -1430 +  "px";
-    Personagem7.style.top = 410 +  "px";
+    Personagem7.style.left = Varx -2850 +  "px";
+    Personagem7.style.top = Vary -800 +  "px";
     Personagem7.style.backgroundImage = LinkPersonagem7P;
 
 
     
 }
 function CriObjetos(){
-    Objeto1.style.left = -350 +  "px";
-    Objeto1.style.top = -130 +  "px";
+    Objeto1.style.left = Varx -1750 +  "px";
+    Objeto1.style.top = Vary -1300 +  "px";
     Objeto1.style.backgroundImage = LinkObjeto1;
 
-    Objeto2.style.left = -1400 +  "px";
-    Objeto2.style.top = 850 +  "px";
+    Objeto2.style.left = Varx  -2850 +  "px";
+    Objeto2.style.top = Vary -330+  "px";
     Objeto2.style.backgroundImage = LinkObjeto2;
 
-    Objeto3.style.left = -1520 +  "px";
-    Objeto3.style.top = -400 +  "px";
+    Objeto3.style.left = Varx  -2920 +  "px";
+    Objeto3.style.top = Vary -1570 +  "px";
     Objeto3.style.backgroundImage = LinkObjeto3;
 
-    Objeto4.style.left = -390 +  "px";
-    Objeto4.style.top = 950 +  "px";
+    Objeto4.style.left = Varx  -1790 +  "px";
+    Objeto4.style.top = Vary -290 +  "px";
     Objeto4.style.backgroundImage = LinkObjeto4;
 
-    Objeto5.style.left = -350 +  "px";
-    Objeto5.style.top = 600 +  "px";
+    Objeto5.style.left = Varx  -1750+  "px";
+    Objeto5.style.top = Vary -720+  "px";
     Objeto5.style.backgroundImage = LinkObjeto5;
 
-    Objeto6.style.left = 250 +  "px";
-    Objeto6.style.top = 900 +  "px";
+    Objeto6.style.left = Varx -1100 +  "px";
+    Objeto6.style.top = Vary -350 +  "px";
     Objeto6.style.backgroundImage = LinkObjeto6;
 }
 
@@ -512,6 +594,127 @@ function Redesenhar(){
     Objeto5.style.top = posicaoObj5y + "px"
     Objeto6.style.left = posicaoObj6x + "px"
     Objeto6.style.top = posicaoObj6y + "px"
+
+
+
+//PROX OBJETOS ----------
+    if(posicaox>=-2130 - 50&&
+       posicaox<=-2130 +50&&
+       posicaoy>=-1540 -50&&
+       posicaoy<=-1540 +50&&
+       ItensMapa[5]==1
+    ){
+        TelaObj.style.display = "block";
+        TelaObj.style.backgroundImage = LinkObjeto6;
+        clique2 = 6;
+        acionarBtDir();
+        
+    } else if(posicaox>=-1440 - 50&&
+       posicaox<=-1440 +50&&
+       posicaoy>=-1610 -50&&
+       posicaoy<=-1610 +50&&
+       ItensMapa[3]==1
+    ){
+        TelaObj.style.display = "block";
+        TelaObj.style.backgroundImage = LinkObjeto4;
+        clique2 = 4;
+        acionarBtDir();
+    } else if(posicaox>=-1480 - 50&&
+       posicaox<=-1480 +50&&
+       posicaoy>=-1180 -50&&
+       posicaoy<=-1180 +50&&
+       ItensMapa[4]==1
+    ){
+        TelaObj.style.display = "block";
+        TelaObj.style.backgroundImage = LinkObjeto5;
+        clique2 = 5;
+        acionarBtDir();
+    } else if(posicaox>=-1480 - 50&&
+       posicaox<=-1480 +50&&
+       posicaoy>=-600 -50&&
+       posicaoy<=-600 +50&&
+       ItensMapa[0]==1
+    ){
+        TelaObj.style.display = "block";
+        TelaObj.style.backgroundImage = LinkObjeto1;
+        clique2 = 1;
+        acionarBtDir();
+    } else if(posicaox>=-380 - 50&&
+       posicaox<=-380 +50&&
+       posicaoy>=-1575 -50&&
+       posicaoy<=-1575 +50&&
+       ItensMapa[1]==1
+    ){
+        TelaObj.style.display = "block";
+        TelaObj.style.backgroundImage = LinkObjeto2;
+        clique2 = 2;
+        acionarBtDir();
+    } else if(posicaox>=-305 - 50&&
+       posicaox<=-305 +50&&
+       posicaoy>=-330 -50&&
+       posicaoy<=-330 +50&&
+       ItensMapa[2]==1
+    ){
+        TelaObj.style.display = "block";
+        TelaObj.style.backgroundImage = LinkObjeto3;
+        clique2 = 3;
+        acionarBtDir();
+    } else {
+        TelaObj.style.display = "none";
+        clique2 = 0;
+        DesacionarBtDir();
+    }
+
+
+//PROX PERSONAGENS ----------
+    if(Personagem1.getBoundingClientRect().left>= Personagem2.getBoundingClientRect().left- 100&&
+       Personagem1.getBoundingClientRect().left<= Personagem2.getBoundingClientRect().left +100&&
+       Personagem1.getBoundingClientRect().top>= Personagem2.getBoundingClientRect().top -100&&
+       Personagem1.getBoundingClientRect().top<= Personagem2.getBoundingClientRect().top +100
+    ){
+        caixaBt.style.backgroundColor ="rgb(92, 145, 7)";
+    } else if(Personagem1.getBoundingClientRect().left>= Personagem3.getBoundingClientRect().left- 100&&
+       Personagem1.getBoundingClientRect().left<= Personagem3.getBoundingClientRect().left +100&&
+       Personagem1.getBoundingClientRect().top>= Personagem3.getBoundingClientRect().top -100&&
+       Personagem1.getBoundingClientRect().top<= Personagem3.getBoundingClientRect().top +100
+    ){
+        caixaBt.style.backgroundColor ="rgb(92, 145, 7)";
+    } else if(Personagem1.getBoundingClientRect().left>= Personagem4.getBoundingClientRect().left- 100&&
+       Personagem1.getBoundingClientRect().left<= Personagem4.getBoundingClientRect().left +100&&
+       Personagem1.getBoundingClientRect().top>= Personagem4.getBoundingClientRect().top -100&&
+       Personagem1.getBoundingClientRect().top<= Personagem4.getBoundingClientRect().top +100
+    ){
+        caixaBt.style.backgroundColor ="rgb(92, 145, 7)";
+    } else if(Personagem1.getBoundingClientRect().left>= Personagem5.getBoundingClientRect().left- 100&&
+       Personagem1.getBoundingClientRect().left<= Personagem5.getBoundingClientRect().left +100&&
+       Personagem1.getBoundingClientRect().top>= Personagem5.getBoundingClientRect().top -100&&
+       Personagem1.getBoundingClientRect().top<= Personagem5.getBoundingClientRect().top +100
+    ){
+        caixaBt.style.backgroundColor ="rgb(92, 145, 7)";
+    } else if(Personagem1.getBoundingClientRect().left>= Personagem6.getBoundingClientRect().left- 100&&
+       Personagem1.getBoundingClientRect().left<= Personagem6.getBoundingClientRect().left +100&&
+       Personagem1.getBoundingClientRect().top>= Personagem6.getBoundingClientRect().top -100&&
+       Personagem1.getBoundingClientRect().top<= Personagem6.getBoundingClientRect().top +100
+    ){
+        caixaBt.style.backgroundColor ="rgb(92, 145, 7)";
+    } else if(Personagem1.getBoundingClientRect().left>= Personagem7.getBoundingClientRect().left- 100&&
+       Personagem1.getBoundingClientRect().left<= Personagem7.getBoundingClientRect().left +100&&
+       Personagem1.getBoundingClientRect().top>= Personagem7.getBoundingClientRect().top -100&&
+       Personagem1.getBoundingClientRect().top<= Personagem7.getBoundingClientRect().top +100
+    ){
+        caixaBt.style.backgroundColor ="rgb(92, 145, 7)";
+    }else{
+        caixaBt.style.backgroundColor ="#044150";
+    }
+
+
+
+
+
+
+
+
+
 }
 
 let vel = 1;
@@ -557,3 +760,33 @@ let ContPer1 = 80;
         }
     };
 }
+
+function acionarBtDir(){
+    const botao = document.getElementById("BtDir");
+    botao.style.backgroundColor= "#028eb1";
+    botao.style.color= "#dbe0e0";
+    botao.disabled = false;
+    document.getElementById("Inventario").style.display ="none";
+}
+function DesacionarBtDir(){
+    const botao = document.getElementById("BtDir");
+    botao.style.backgroundColor= "#0b5163";
+    botao.style.color= "#515555";
+    botao.disabled = true;
+
+}
+/* ULTIMA TELA ------
+    if(clique2 == 6){  
+        tela.style.display = "none";
+        moverArea.style.display = "none";
+        document.getElementById("Tela3").style.display = "flex";
+        clique2 = 1;
+   
+        
+    } else {
+        tela.style.display = "flex";
+        moverArea.style.display = "flex";
+        document.getElementById("Tela3").style.display = "none";
+        
+        clique2 = -1;
+    }*/
