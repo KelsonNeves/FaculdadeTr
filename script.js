@@ -63,7 +63,7 @@ EfWalking.playbackRate = 1.4;
 
 //OBJETOS --------------
 
-const MalhaColisao = [/*
+const MalhaColisao = [
     {x: -2220, y: -1830, width: 0, height: 2000},
     {x: -2240, y: -330, width: 2300, height: 30},
     {x: -180, y: -1830, width: 0, height: 2000},
@@ -89,7 +89,7 @@ const MalhaColisao = [/*
     {x: -325, y: -430, width: -10, height: 300},
     {x: -1440, y: -570, width: 220, height: 300},
 
-*/
+
 ];
 
 
@@ -125,7 +125,7 @@ let movX = null;
 let movY = null;
 let movPer = setInterval(MovPersonagem, 4000);
 let VaoMov = 15;
-let velocidade = 3;
+let velocidade = 1;
 
 
 
