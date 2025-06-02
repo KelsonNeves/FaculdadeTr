@@ -925,7 +925,7 @@ document.getElementById("A").addEventListener("click", function(){
         Personagem7.style.display="none";
 
     }
-    alert(Score);
+    
 });
 document.getElementById("B").addEventListener("click", function(){
     if(Resp[1] == 1){
@@ -982,7 +982,7 @@ document.getElementById("B").addEventListener("click", function(){
         Personagem7.style.display="none";
 
     }
-    alert(Score);
+    
 });
 document.getElementById("C").addEventListener("click", function(){
     if(Resp[2] == 1){
@@ -1039,7 +1039,7 @@ document.getElementById("C").addEventListener("click", function(){
         Personagem7.style.display="none";
 
     }
-    alert(Score);
+    
 });
 
 
