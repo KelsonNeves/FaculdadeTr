@@ -297,7 +297,7 @@ let clique1 = -1;
 function Clique1(){
 
     if(clique1 == -1){
-        tela.style.height = tela.offsetHeight - 350 + "px";
+        tela.style.height = tela.offsetHeight - 300 + "px";
         clique1 = 1;
         caixaBt.style.height = Areay - tela.offsetHeight + "px";
         moverArea.style.display = "none";
