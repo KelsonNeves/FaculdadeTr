@@ -55,11 +55,16 @@ const Objeto5 = document.getElementById("Obj5");
 const Objeto6 = document.getElementById("Obj6");
 
 //EFEITOS SONOROS
+const Video =document.getElementById("VideoIntro");
+
+
 const EfFundo = new Audio("MSC/FUNDO.m4a");
 EfFundo.loop = true;
+const EfFundo1 = new Audio("MSC/FUNDO1.m4a");
 const EfWalking = new Audio("MSC/EfWalking.m4a");
 EfWalking.playbackRate = 1.4;
-
+const EfCreak = new Audio("MSC/EfCreak.m4a");
+EfCreak.playbackRate = 1.8
 
 //OBJETOS --------------
 
@@ -95,9 +100,15 @@ const MalhaColisao = [
 
 //SCORE -----------------
 let Inventario = [0,0,0,0,0,0];
-let Score = 100;
+let Respostas = [0,0,0,0,0,0,0,0,0,0,0,0];
+let Score = 0;
 
+let PerPersonagem = [0,0,0,0,0,0];
 let ItensMapa = [1,1,1,1,1,1];
+
+
+
+
 
 
 let posicaox = -2000;
@@ -174,6 +185,9 @@ function resolucao(){
     moverArea.style.top = tela.offsetHeight + "px";
     caixaBt.style.height = Body.offsetHeight - tela.offsetHeight + "px";
     document.getElementById('BtDir').disabled = true;
+    document.getElementById('BtEsq').disabled = true;
+    document.getElementById("ScoreFinal").style.left = 70  + "px";
+    document.getElementById("ScoreFinal").style.bottom = 50+"px";
 };
 
 
@@ -274,17 +288,53 @@ mover.addEventListener("touchend", function(){
     EfWalking.pause();
     EfWalking.currentTime = 0;
 });
+
+
+let Resp = [0,0,0];
+
+let CliquePers = 0;
 let clique1 = -1;
 function Clique1(){
-alert(mapa.getBoundingClientRect().top+"/"+mapa.getBoundingClientRect().left);
+
     if(clique1 == -1){
         tela.style.height = tela.offsetHeight - 300 + "px";
         clique1 = 1;
         caixaBt.style.height = Areay - tela.offsetHeight + "px";
         moverArea.style.display = "none";
         
-        document.getElementById("Tela2").style.display = "flex";
+        
+        document.getElementById("BtEsq").textContent="PULAR";
+        document.getElementById("Tela2").style.display = "inline-block";
         document.getElementById("Tela2").style.top = "-40px";
+
+        if (CliquePers == 0 && PerPersonagem[0]==0){
+            Quest1();
+        } else if (CliquePers == 0 && PerPersonagem[0]==1){
+            Quest2();
+        } else if (CliquePers == 1 && PerPersonagem[1]==0){
+            Quest3();
+        } else if (CliquePers == 1 && PerPersonagem[1]==1){
+            Quest4();
+        } else if (CliquePers == 2 && PerPersonagem[2]==0){
+            Quest5();
+        } else if (CliquePers == 2 && PerPersonagem[2]==1){
+            Quest6();
+        } else if (CliquePers == 3 && PerPersonagem[3]==0){
+            Quest7();
+        } else if (CliquePers == 3 && PerPersonagem[3]==1){
+            Quest8();
+        } else if (CliquePers == 4 && PerPersonagem[4]==0){
+            Quest9();
+        } else if (CliquePers == 4 && PerPersonagem[4]==1){
+            Quest10();
+        } else if (CliquePers == 5 && PerPersonagem[5]==0){
+            Quest11();
+        } else if (CliquePers == 5 && PerPersonagem[5]==1){
+            Quest12();
+        }else{
+            
+        }
+
         
     } else {
         moverArea.style.display = "flex";
@@ -292,6 +342,7 @@ alert(mapa.getBoundingClientRect().top+"/"+mapa.getBoundingClientRect().left);
         clique1 = -1
         caixaBt.style.height = Areay - tela.offsetHeight + "px";
         
+        document.getElementById("BtEsq").textContent="CONVERSAR";
         document.getElementById("Tela2").style.display = "none";
         document.getElementById("Tela2").style.top = "10px";
     } 
@@ -347,6 +398,8 @@ function Clique2(){
     TelaObj.style.display = "none";
     
     document.getElementById("Inventario").style.display ="flex";
+    
+    EfCreak.play();
 
 };
 
@@ -480,7 +533,17 @@ BtJg.addEventListener("click", function(){
     EfFundo.play();
     abertura.style.display = "none";
     BtJg.style.display = "none";
+    setTimeout(() => {
+        finalizarPartida();
+    }, 300000);
 });
+function IniciarVideo(){
+    Video.play();
+}
+function PularVideo(){
+    Video.pause()
+    document.getElementById("VideoIntro").style.display="none";
+}
 
 function colisao(){
 
@@ -672,48 +735,54 @@ function Redesenhar(){
        Personagem1.getBoundingClientRect().top>= Personagem2.getBoundingClientRect().top -100&&
        Personagem1.getBoundingClientRect().top<= Personagem2.getBoundingClientRect().top +100
     ){
-        caixaBt.style.backgroundColor ="rgb(92, 145, 7)";
+        CliquePers = 0;
+        document.getElementById('BtEsq').disabled = false;
+        acionarBtEsq();
     } else if(Personagem1.getBoundingClientRect().left>= Personagem3.getBoundingClientRect().left- 100&&
        Personagem1.getBoundingClientRect().left<= Personagem3.getBoundingClientRect().left +100&&
        Personagem1.getBoundingClientRect().top>= Personagem3.getBoundingClientRect().top -100&&
        Personagem1.getBoundingClientRect().top<= Personagem3.getBoundingClientRect().top +100
     ){
-        caixaBt.style.backgroundColor ="rgb(92, 145, 7)";
+        CliquePers = 1;
+        document.getElementById('BtEsq').disabled = false;
+        acionarBtEsq();
     } else if(Personagem1.getBoundingClientRect().left>= Personagem4.getBoundingClientRect().left- 100&&
        Personagem1.getBoundingClientRect().left<= Personagem4.getBoundingClientRect().left +100&&
        Personagem1.getBoundingClientRect().top>= Personagem4.getBoundingClientRect().top -100&&
        Personagem1.getBoundingClientRect().top<= Personagem4.getBoundingClientRect().top +100
     ){
-        caixaBt.style.backgroundColor ="rgb(92, 145, 7)";
+        CliquePers = 2;
+        document.getElementById('BtEsq').disabled = false;
+        acionarBtEsq();
     } else if(Personagem1.getBoundingClientRect().left>= Personagem5.getBoundingClientRect().left- 100&&
        Personagem1.getBoundingClientRect().left<= Personagem5.getBoundingClientRect().left +100&&
        Personagem1.getBoundingClientRect().top>= Personagem5.getBoundingClientRect().top -100&&
        Personagem1.getBoundingClientRect().top<= Personagem5.getBoundingClientRect().top +100
     ){
-        caixaBt.style.backgroundColor ="rgb(92, 145, 7)";
+        CliquePers = 3;
+        document.getElementById('BtEsq').disabled = false;
+        acionarBtEsq();
     } else if(Personagem1.getBoundingClientRect().left>= Personagem6.getBoundingClientRect().left- 100&&
        Personagem1.getBoundingClientRect().left<= Personagem6.getBoundingClientRect().left +100&&
        Personagem1.getBoundingClientRect().top>= Personagem6.getBoundingClientRect().top -100&&
        Personagem1.getBoundingClientRect().top<= Personagem6.getBoundingClientRect().top +100
     ){
-        caixaBt.style.backgroundColor ="rgb(92, 145, 7)";
+        CliquePers = 4;
+        document.getElementById('BtEsq').disabled = false;
+        acionarBtEsq();
     } else if(Personagem1.getBoundingClientRect().left>= Personagem7.getBoundingClientRect().left- 100&&
        Personagem1.getBoundingClientRect().left<= Personagem7.getBoundingClientRect().left +100&&
        Personagem1.getBoundingClientRect().top>= Personagem7.getBoundingClientRect().top -100&&
        Personagem1.getBoundingClientRect().top<= Personagem7.getBoundingClientRect().top +100
     ){
-        caixaBt.style.backgroundColor ="rgb(92, 145, 7)";
+        CliquePers = 5;
+        document.getElementById('BtEsq').disabled = false;
+        acionarBtEsq();
     }else{
-        caixaBt.style.backgroundColor ="#044150";
+        
+        document.getElementById('BtEsq').disabled = true;
+        DesacionarBtEsq();
     }
-
-
-
-
-
-
-
-
 
 }
 
@@ -775,18 +844,411 @@ function DesacionarBtDir(){
     botao.disabled = true;
 
 }
-/* ULTIMA TELA ------
-    if(clique2 == 6){  
-        tela.style.display = "none";
-        moverArea.style.display = "none";
-        document.getElementById("Tela3").style.display = "flex";
-        clique2 = 1;
-   
-        
-    } else {
-        tela.style.display = "flex";
+function acionarBtEsq(){
+    const botao = document.getElementById("BtEsq");
+    botao.style.backgroundColor= "#028eb1";
+    botao.style.color= "#dbe0e0";
+    botao.disabled = false;
+    document.getElementById("Inventario").style.display ="none";
+}
+function DesacionarBtEsq(){
+    const botao = document.getElementById("BtEsq");
+    botao.style.backgroundColor= "#0b5163";
+    botao.style.color= "#515555";
+    botao.disabled = true;
+
+}
+function abaixarTela2(){
         moverArea.style.display = "flex";
-        document.getElementById("Tela3").style.display = "none";
+        tela.style.height = (Areay - 300) + "px";
+        clique1 = -1
+        caixaBt.style.height = Areay - tela.offsetHeight + "px";
         
-        clique2 = -1;
-    }*/
+        document.getElementById("BtEsq").textContent="CONVERSAR";
+        document.getElementById("Tela2").style.display = "none";
+        document.getElementById("Tela2").style.top = "10px";
+}
+
+
+document.getElementById("A").addEventListener("click", function(){
+    if(Resp[0] == 1){
+        Score += 10;
+    } else {
+        Score -= 5;
+    }
+
+    if(CliquePers == 0 && PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 0){
+        abaixarTela2()
+        Personagem2.style.display="none";
+
+    }
+    if(CliquePers == 1 && PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 1){
+        abaixarTela2()
+        Personagem3.style.display="none";
+
+    }
+    if(CliquePers == 2 && PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 2){
+        abaixarTela2()
+        Personagem4.style.display="none";
+
+    }
+    if(CliquePers == 3 &&PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 3){
+        abaixarTela2()
+        Personagem5.style.display="none";
+
+    }
+    if(CliquePers == 4 &&PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 4){
+        abaixarTela2()
+        Personagem6.style.display="none";
+
+    }
+    if(CliquePers == 5 &&PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 5){
+        abaixarTela2()
+        Personagem7.style.display="none";
+
+    }
+    alert(Score);
+});
+document.getElementById("B").addEventListener("click", function(){
+    if(Resp[1] == 1){
+        Score += 10;
+    } else {
+        Score -= 5;
+    }
+
+    if(CliquePers == 0 && PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 0){
+        abaixarTela2()
+        Personagem2.style.display="none";
+
+    }
+    if(CliquePers == 1 && PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 1){
+        abaixarTela2()
+        Personagem3.style.display="none";
+
+    }
+    if(CliquePers == 2 && PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 2){
+        abaixarTela2()
+        Personagem4.style.display="none";
+
+    }
+    if(CliquePers == 3 &&PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 3){
+        abaixarTela2()
+        Personagem5.style.display="none";
+
+    }
+    if(CliquePers == 4 &&PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 4){
+        abaixarTela2()
+        Personagem6.style.display="none";
+
+    }
+    if(CliquePers == 5 &&PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 5){
+        abaixarTela2()
+        Personagem7.style.display="none";
+
+    }
+    alert(Score);
+});
+document.getElementById("C").addEventListener("click", function(){
+    if(Resp[2] == 1){
+        Score += 10;
+    } else {
+        Score -= 5;
+    }
+
+    if(CliquePers == 0 && PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 0){
+        abaixarTela2()
+        Personagem2.style.display="none";
+
+    }
+    if(CliquePers == 1 && PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 1){
+        abaixarTela2()
+        Personagem3.style.display="none";
+
+    }
+    if(CliquePers == 2 && PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 2){
+        abaixarTela2()
+        Personagem4.style.display="none";
+
+    }
+    if(CliquePers == 3 &&PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 3){
+        abaixarTela2()
+        Personagem5.style.display="none";
+
+    }
+    if(CliquePers == 4 &&PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 4){
+        abaixarTela2()
+        Personagem6.style.display="none";
+
+    }
+    if(CliquePers == 5 &&PerPersonagem[CliquePers]==0){
+        abaixarTela2()
+        PerPersonagem[CliquePers]+=1;
+    } else if (CliquePers == 5){
+        abaixarTela2()
+        Personagem7.style.display="none";
+
+    }
+    alert(Score);
+});
+
+
+// FUNÇÕES DE PERGUNTA
+function Quest1(){
+    document.getElementById("Per").textContent = "";
+    document.getElementById("R1").textContent = "";
+    document.getElementById("R2").textContent = "";
+    document.getElementById("R3").textContent = "";
+    
+
+    Resp[0]=1;
+    Resp[1]=0;
+    Resp[2]=0;
+
+}
+function Quest2(){
+    document.getElementById("Per").textContent = "Trabalho desde menina nas terras do barão... Dou parte da colheita, pago tributo, rezo como mandam. Mas quando meu filho adoeceu, usei um chá de raízes que minha avó me ensinou. Agora dizem que sou bruxa! A mulher do feitor jura que me viu falando com corujas à noite — e isso basta pra me levarem à forca. Não tenho quem fale por mim, nem moedas pra pagar confessor. Dizei-me, por caridade: O que posso fazer pra não morrer por algo que nem sei explicar?";
+    document.getElementById("R1").textContent = "A)Ofereça suas terras ao senhor feudal como sinal de arrependimento. Se ele lucrar com tua entrega, talvez te perdoe.";
+    document.getElementById("R2").textContent = "B)Confesse logo e diga que foi seduzida pelo demônio. Talvez se comovam e troquem a forca pelo convento.";
+    document.getElementById("R3").textContent = "C)Fuja da aldeia com teu filho. Nos caminhos entre as montanhas, ninguém te perguntará por feitiços nem rezas erradas.";
+    
+
+    Resp[0]=0;
+    Resp[1]=1;
+    Resp[2]=0;
+
+}
+
+function Quest3(){
+    document.getElementById("Per").textContent = "Irmão, meu coração está em agonia... Alterei uma escritura de doação para aumentar as terras do mosteiro. Agora o bispo descobriu e ameaça entregar-me ao tribunal secular! Se confessar ao abade, serei punido com anos de penitência. Mas se o tribunal me pegar... ah, o fogo eterno me espera! Diga-me, pelo amor de Cristo: Como escapar da forca sem mentir à Santa Igreja?";
+    document.getElementById("R1").textContent = "A)Confesse tudo ao abade agora! A penitência da Igreja é sua única salvação.";
+    document.getElementById("R2").textContent = "B)Fuja do mosteiro esta noite. Enquanto livre, poderá buscar perdão em Roma.";
+    document.getElementById("R3").textContent = "C)Destrua a escritura falsa. Sem prova, o bispo nada poderá fazer. A igreja não precisa saber dessa atitude.";
+    
+
+    Resp[0]=1;
+    Resp[1]=0;
+    Resp[2]=0;
+
+}
+
+function Quest4(){
+    document.getElementById("Per").textContent = "Amigo, corrija meu erro! Queimei um livro de missas na praça, gritando: ‘A razão liberta mais que dogmas!’ Agora o bispo exige minha morte na fogueira. Se me retrato, traio o pensamento livre. Se não, ardo como herege. Diga-me: Há algum jeito de salvar minha pele sem calar a verdade que me queima por dentro?";
+    document.getElementById("R1").textContent = "A)Defenda suas ideias perante o tribunal! A verdade precisa de mártires.";
+    document.getElementById("R2").textContent = "B)Fuja para Genebra. Lá, protestantes protegerão sua coragem!";
+    document.getElementById("R3").textContent = "C)Retrate-se publicamente. Alegue ‘loucura juvenil’ e jure obediência à Igreja.";
+    
+
+    Resp[0]=0;
+    Resp[1]=0;
+    Resp[2]=1;
+
+}
+
+function Quest5(){
+    document.getElementById("Per").textContent = "Meu amigo, salve-me! Estudei os astros e vi: o Rei não viverá além do próximo eclipse... Um servo me denunciou. Agora, os guardas reais batem à minha porta! Se confirmo a previsão, serei esquartejado por traição. Se a nego, chamarão meu saber de fraude. Diga-me, pelo amor dos céus: Como sair desta cela sem perder a cabeça?";
+    document.getElementById("R1").textContent = "A)Afirme que os astros não mentem! Um verdadeiro sábio não teme a verdade.";
+    document.getElementById("R2").textContent = "B)Fuja da corte e busca abrigo em terras longínquas. Só longe do poder real escaparás da forca ou da fogueira.";
+    document.getElementById("R3").textContent = "C)Negue tudo, queime seus mapas celestes e diga que foi enganado por espíritos malignos. Talvez aceitem tua confissão e te deixem vivo.";
+    
+
+    Resp[0]=0;
+    Resp[1]=0;
+    Resp[2]=1;
+
+}
+
+function Quest6(){
+    document.getElementById("Per").textContent = "Não fui eu quem roubou o cálice da capela... Mas disseram que viram alguém da minha idade fugindo de noite. Chamaram os homens da guarda, me arrastaram da oficina, e agora... agora querem que eu confesse. Me bateram, me queimaram com ferro... e disseram que, se eu disser que fui eu, tudo acaba. Mas se eu disser, serei enforcado! E se eu não disser... vão continuar. Por tudo que é santo… O que devo fazer?";
+    document.getElementById("R1").textContent = "A)Aguente firme. Deus sabe da tua inocência e pode enviar um milagre antes que seja tarde.";
+    document.getElementById("R2").textContent = "B)cuse outro rapaz. Com sorte, desviarás a ira dos guardas e ganharás tempo para fugir.";
+    document.getElementById("R3").textContent = "C)Confesse logo. É melhor morrer enforcado do que viver sendo torturado todos os dias.";
+    
+
+    Resp[0]=0;
+    Resp[1]=0;
+    Resp[2]=1;
+
+}
+
+function Quest7(){
+    document.getElementById("Per").textContent = "Há vinte anos copio palavras que não são minhas… Faço confissões que nunca foram ditas, selos que jamais foram vistos, e sentenças que já nascem sujas. Ontem mesmo, o juiz me mandou escrever que um homem era culpado antes mesmo do julgamento começar. E o pior… o pobre nem falava nossa língua. Sinto o peso das mentiras que assinei. Mas se nego, me acusam de traição. Dizei-me então, com sinceridade: Existe algum caminho que me livre disso sem que eu vá parar na masmorra?";
+    document.getElementById("R1").textContent = "A)Escreva cartas anônimas aos senhores da Igreja, denunciando os abusos. Se Deus quiser, alguém ouvirá.";
+    document.getElementById("R2").textContent = "B)Continue calado e escreva o que mandarem. A verdade não alimenta a boca nem protege do açoite.";
+    document.getElementById("R3").textContent = "C)Fuja com os registros e leve as provas a outra cidade. Talvez algum bispo justo te ouça… ou talvez morras no caminho.";
+    
+
+    Resp[0]=0;
+    Resp[1]=1;
+    Resp[2]=0;
+
+}
+
+function Quest8(){
+    document.getElementById("Per").textContent = "Disseram que sou homem honrado, por isso me chamaram pra julgar o padeiro... Dizem que ele misturou pó de osso na farinha dos monges. Mas ele jura que é inocente… e tem três filhos pequenos que choram quando o veem preso. O senhor do vilarejo quer que eu diga ‘culpado’, e já mandou avisar que minha terra pode ser tomada se eu contrariá-lo. Mas... se eu condenar um inocente, que será da minha alma? Senhor, diga-me… Como pode um homem pobre decidir entre a justiça de Deus e a ira dos poderosos?";
+    document.getElementById("R1").textContent = "A)Condene o padeiro. Se o senhor feudal quiser assim, resistir é cavar tua própria cova.";
+    document.getElementById("R2").textContent = "B)Diga que não podes decidir. Deixe que o juiz decida sozinho e salve tua consciência.";
+    document.getElementById("R3").textContent = "C)Declara o padeiro inocente. A verdade precisa de coragem, mesmo que ela te custe tudo.";
+    
+
+    Resp[0]=1;
+    Resp[1]=0;
+    Resp[2]=0;
+
+}
+
+function Quest9(){
+    document.getElementById("Per").textContent = "Ai de mim! Usei ervas raras para salvar uma criança doente... Agora a família grita que é bruxaria! Querem que a Inquisição me julgue. Mas eu sou um homem da ciência, não um feiticeiro! Por piedade, diga-me: Como posso provar minha inocência sem desafiar a Santa Igreja?";
+    document.getElementById("R1").textContent = "A)Peça julgamento pela Inquisição. Só assim, se absolvido, limpará seu nome perante Deus e o povo!";
+    document.getElementById("R2").textContent = "B)Fuja da cidade esta noite. Enquanto vivo, poderá continuar a curar em segredo.";
+    document.getElementById("R3").textContent = "C)Exija um exame perante doutores da universidade! A ciência refutará essas superstições.";
+    
+
+    Resp[0]=1;
+    Resp[1]=0;
+    Resp[2]=0;
+
+}
+
+function Quest10(){
+    document.getElementById("Per").textContent = "Sou um pintor que retrata nus inspirados nos antigos mestres... Mas agora me acusam de obscenidade e querem me levar ao Colégio dos Costumes. Receio perder meu trabalho e minha reputação. Dizei-me, por favor: Como posso provar que minhas pinturas são arte e não simples provocação à moral?";
+    document.getElementById("R1").textContent = "A)Convide estudiosos de humanidades para defenderem que segues a tradição dos antigos mestres e, assim, falarem em teu favor no Colégio.";
+    document.getElementById("R2").textContent = "B)Retire do público as obras mais ousadas e apresente uma pintura religiosa para mostrar respeito às regras da Igreja.";
+    document.getElementById("R3").textContent = "C)Busque o apoio de um protetor influente, quem sabe algum membro dos Médici, para interceder por ti junto aos juízes eclesiásticos.";
+    
+
+    Resp[0]=0;
+    Resp[1]=1;
+    Resp[2]=0;
+
+}
+
+function Quest11(){
+    document.getElementById("Per").textContent = "Meu marido era mercador de tecidos — homem honrado, pagava tributos e ajudava até os monges com doações. Morreu de febre súbita, e logo um nobre tomou seus armazéns, dizendo que estavam em dívida com a coroa. Mas não há papel, nem selo, nem prova! Apenas a palavra dele... Procurei o juiz da cidade, mas ele nem me ouviu. Disse que uma mulher sozinha não pode falar contra um fidalgo. Dizei-me, por justiça: O que pode fazer uma viúva de boa família contra a vontade dos poderosos?";
+    document.getElementById("R1").textContent = "A)Vá até a praça e grite sua história ao povo. Se todos ouvirem, talvez se levantem contra o nobre.";
+    document.getElementById("R2").textContent = "B)Ofereça ao juiz um dote ou presente generoso. A moeda muitas vezes pesa mais que a verdade no tribunal.";
+    document.getElementById("R3").textContent = "C)Procure um confessor influente. Se ele mover preces e cartas, o juiz pode reconsiderar por temor de pecar.";
+    
+
+    Resp[0]=0;
+    Resp[1]=1;
+    Resp[2]=0;
+
+}
+
+function Quest12(){
+    document.getElementById("Per").textContent = "Por anos, costurei para donas ricas e humildes. Aprendi com minha mãe a usar agulhas não só pra fechar roupas, mas pra aliviar dores — espetando pontos certos do corpo, as dores de cabeça passavam, o estômago melhorava… Mas agora a filha do intendente disse que eu fiz encantamento nela. Disse que viu o demônio em meus olhos enquanto eu curava sua febre! Vieram me buscar com cordas, dizendo que nenhuma mulher honesta sabe tanto sobre o corpo assim… Senhor, diga-me com franqueza: O que pode uma costureira fazer pra escapar da fogueira?";
+    document.getElementById("R1").textContent = "A)Diga que aprendeu os métodos com um monge antigo. Se associar teus saberes à Igreja, talvez te perdoem.";
+    document.getElementById("R2").textContent = "B)Destrua tuas agulhas diante do povo e jura nunca mais tocar em corpo de ninguém. Mostre obediência e arrependimento.";
+    document.getElementById("R3").textContent = "C)Nega tudo e desafia os acusadores. Se Deus estiver contigo, nada poderão provar.";
+    
+
+    Resp[0]=0;
+    Resp[1]=1;
+    Resp[2]=0;
+
+}
+
+function finalizarPartida(){
+
+    tela3.style.height = Body.offsetHeight + "px";
+    tela3.style.display = "inline-block";
+    tela.style.display = "none";
+    caixaBt.style.display = "none";
+
+    pararX();
+    pararY();
+    EfWalking.pause();
+    EfWalking.currentTime = 0;
+
+
+for(let x;x<=5;x++){
+    if(Inventario[x]=1){
+        Score += 5;
+    }else if(Inventario[x]=-1){
+        Score -= 5;
+    }
+};
+        
+    if(Inventario[0]==1){
+        document.getElementById("Item1").textContent = "HOMEM VITRUVIANO - CORRETO";
+        document.getElementById("Item1").style.display = "flex";
+    } else {}
+    if(Inventario[1]==1){
+        document.getElementById("Item2").textContent = "MONALIZA - CORRETO";
+        document.getElementById("Item2").style.display = "flex";
+    } else {}
+    if(Inventario[2]==-1){
+        document.getElementById("Item3").textContent = "MICROSCÓPIO - ERRADO";
+        document.getElementById("Item3").style.display = "flex";
+    } else {}
+    if(Inventario[3]==1){
+        document.getElementById("Item4").textContent = "LUPA - CORRETO";
+        document.getElementById("Item4").style.display = "flex";
+    } else {}
+    if(Inventario[4]==-1){
+        document.getElementById("Item5").textContent = "ODISSÉIA - ERRADO";
+        document.getElementById("Item5").style.display = "flex";
+    } else {}
+    if(Inventario[5]==-1){
+        document.getElementById("Item6").textContent = "ROMA - ERRADO";
+        document.getElementById("Item6").style.display = "flex";
+    }
+
+        document.getElementById("ScoreFinal").textContent = Score;
+        document.getElementById("ScoreFinal").style.display = "flex";
+    
+    EfFundo1.play();
+
+
+};
