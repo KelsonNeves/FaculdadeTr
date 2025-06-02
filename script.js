@@ -136,7 +136,7 @@ let movX = null;
 let movY = null;
 let movPer = setInterval(MovPersonagem, 4000);
 let VaoMov = 15;
-let velocidade = 1;
+let velocidade = 1.4;
 
 
 
@@ -297,7 +297,7 @@ let clique1 = -1;
 function Clique1(){
 
     if(clique1 == -1){
-        tela.style.height = tela.offsetHeight - 300 + "px";
+        tela.style.height = tela.offsetHeight - 350 + "px";
         clique1 = 1;
         caixaBt.style.height = Areay - tela.offsetHeight + "px";
         moverArea.style.display = "none";
@@ -1045,10 +1045,10 @@ document.getElementById("C").addEventListener("click", function(){
 
 // FUNÇÕES DE PERGUNTA
 function Quest1(){
-    document.getElementById("Per").textContent = "";
-    document.getElementById("R1").textContent = "";
-    document.getElementById("R2").textContent = "";
-    document.getElementById("R3").textContent = "";
+    document.getElementById("Per").textContent = "Trabalho desde menina nas terras do barão... Dou parte da colheita, pago tributo, rezo como mandam. Mas quando meu filho adoeceu, usei um chá de raízes que minha avó me ensinou. Agora dizem que sou bruxa! A mulher do feitor jura que me viu falando com corujas à noite — e isso basta pra me levarem à forca. Não tenho quem fale por mim, nem moedas pra pagar confessor. Dizei-me, por caridade: O que posso fazer pra não morrer por algo que nem sei explicar?";
+    document.getElementById("R1").textContent = "A)Ofereça suas terras ao senhor feudal como sinal de arrependimento. Se ele lucrar com tua entrega, talvez te perdoe.";
+    document.getElementById("R2").textContent = "B)Confesse logo e diga que foi seduzida pelo demônio. Talvez se comovam e troquem a forca pelo convento.";
+    document.getElementById("R3").textContent = "C)Fuja da aldeia com teu filho. Nos caminhos entre as montanhas, ninguém te perguntará por feitiços nem rezas erradas.";
     
 
     Resp[0]=1;
