@@ -535,7 +535,7 @@ BtJg.addEventListener("click", function(){
     BtJg.style.display = "none";
     setTimeout(() => {
         finalizarPartida();
-    }, 300000);
+    }, 400000);
 });
 function IniciarVideo(){
     Video.play();
